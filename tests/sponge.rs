@@ -8,7 +8,7 @@ use rand::Rng;
 #[test]
 fn test_sponge() {
     let mut child = Command::new("target/debug/sponge.exe")
-        .arg("test.txt")
+        .arg("test1.txt")
         .stdin(Stdio::piped())
         .stdout(Stdio::piped())
         .spawn()
@@ -20,15 +20,17 @@ fn test_sponge() {
     let output = child.wait_with_output().expect("failed to wait on child");
     assert!(output.status.success(), "sponge failed");
 
-    let contents = fs::read_to_string("test.txt").expect("failed to read file");
+    let contents = fs::read_to_string("test1.txt").expect("failed to read file");
     assert_eq!(contents, "hello", "sponge wrote incorrect data");
+
+    fs::remove_file("test1.txt").expect("failed to remove file");
 }
 
 #[test]
 fn random_test() {
     // This test uses random strings to test sponge
     let mut child = Command::new("target/debug/sponge.exe")
-        .arg("test.txt")
+        .arg("test2.txt")
         .stdin(Stdio::piped())
         .stdout(Stdio::piped())
         .spawn()
@@ -42,8 +44,9 @@ fn random_test() {
     let output = child.wait_with_output().expect("failed to wait on child");
     assert!(output.status.success(), "sponge failed");
 
-    let contents = fs::read_to_string("test.txt").expect("failed to read file");
+    let contents = fs::read_to_string("test2.txt").expect("failed to read file");
     assert_eq!(contents, random_string, "sponge wrote incorrect data");
 
+    fs::remove_file("test2.txt").expect("failed to remove file");
 }
 
