@@ -37,8 +37,8 @@ fn random_test() {
         .unwrap();
 
     let stdin = child.stdin.as_mut().unwrap();
-    let mut rng = rand::thread_rng();
-    let random_string: String = (0..1000).map(|_| rng.gen_range(32..127) as u8 as char).collect();
+    let mut rng = rand::rng();
+    let random_string: String = (0..1000).map(|_| rng.random_range(32..127) as u8 as char).collect();
     stdin.write_all(random_string.as_bytes()).unwrap();
 
     let output = child.wait_with_output().expect("failed to wait on child");

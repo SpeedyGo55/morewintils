@@ -6,7 +6,8 @@ use std::process::{Command, Stdio};
 #[test]
 fn test_chronic() {
     let output = Command::new("target/debug/chronic.exe")
-        .arg("echo hello")
+        .arg("echo")
+        .arg("hello")
         .stdout(Stdio::piped())
         .output()
         .expect("failed to execute chronic");
